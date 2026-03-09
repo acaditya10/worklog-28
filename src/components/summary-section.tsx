@@ -121,18 +121,21 @@ export function SummarySection() {
   }
 
   return (
-    <div className="rounded-2xl border border-zinc-800/50 bg-zinc-900/30 p-4 sm:p-6">
+    <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.02] p-5 sm:p-8 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] backdrop-blur-3xl transition-all duration-500 hover:border-white/20">
+      {/* Decorative gradient orb for the summary card */}
+      <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-indigo-500/10 blur-[80px]" />
+      <div className="relative z-10">
       <Tabs
         value={activeTab}
         onValueChange={(v) => setActiveTab(v as Summary["type"])}
       >
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <TabsList className="h-auto w-full bg-zinc-900 p-1 sm:w-auto">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <TabsList className="h-auto w-full bg-black/40 p-1 backdrop-blur-md sm:w-auto rounded-xl border border-white/5">
             {TABS.map((tab) => (
               <TabsTrigger
                 key={tab.value}
                 value={tab.value}
-                className="flex-1 text-xs data-[state=active]:bg-zinc-800 data-[state=active]:text-zinc-100 sm:flex-none"
+                className="flex-1 rounded-lg px-4 py-1.5 text-xs font-medium text-zinc-400 transition-all data-[state=active]:bg-white/10 data-[state=active]:text-white data-[state=active]:shadow-sm sm:flex-none"
               >
                 {tab.label}
               </TabsTrigger>
@@ -143,7 +146,7 @@ export function SummarySection() {
             variant="ghost"
             onClick={() => regenerate(activeTab)}
             disabled={loading !== null}
-            className="text-xs text-zinc-500 hover:text-zinc-300"
+            className="rounded-xl border border-white/5 bg-black/20 text-xs font-medium text-zinc-400 transition-all hover:bg-white/10 hover:text-white"
           >
             {loading === activeTab ? (
               <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
@@ -166,29 +169,32 @@ export function SummarySection() {
                 </div>
               </div>
             ) : summaries[tab.value] ? (
-              <div className="prose prose-sm prose-invert max-w-none prose-headings:text-zinc-100 prose-headings:font-semibold prose-p:text-zinc-400 prose-strong:text-zinc-200 prose-li:text-zinc-400 prose-hr:border-zinc-800">
+              <div className="prose prose-sm prose-invert max-w-none prose-headings:text-zinc-100 prose-headings:font-semibold prose-headings:mt-6 prose-headings:mb-3 prose-p:text-zinc-400 prose-p:leading-relaxed prose-p:mb-4 prose-strong:text-zinc-200 prose-li:text-zinc-400 prose-li:mb-1 prose-ul:mb-4 prose-hr:border-white/10 prose-hr:my-6">
                 <ReactMarkdown>
                   {summaries[tab.value]!.content}
                 </ReactMarkdown>
-                <p className="mt-4 text-xs text-zinc-600">
+                <p className="mt-6 text-xs text-zinc-600 border-t border-white/5 pt-4">
                   Generated{" "}
                   {summaries[tab.value]!.generatedAt.toLocaleString()}
                 </p>
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center py-16 text-center">
-                <FileText className="mb-3 h-8 w-8 text-zinc-700" />
-                <p className="text-sm text-zinc-500">
+              <div className="flex flex-col items-center justify-center py-20 text-center rounded-2xl border border-white/5 bg-white/[0.01] mt-4 shadow-inner">
+                <div className="mb-4 rounded-full bg-white/5 p-4 shadow-[0_0_15px_rgba(255,255,255,0.05)] ring-1 ring-white/10">
+                  <FileText className="h-8 w-8 text-zinc-400" />
+                </div>
+                <p className="text-base font-medium text-zinc-300">
                   No summary yet
                 </p>
-                <p className="mt-1 text-xs text-zinc-600">
-                  Click refresh to generate one
+                <p className="mt-1 text-sm text-zinc-500">
+                  Click refresh to generate your AI insights
                 </p>
               </div>
             )}
           </TabsContent>
         ))}
       </Tabs>
+      </div>
     </div>
   );
 }

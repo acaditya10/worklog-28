@@ -54,7 +54,9 @@ If time data is available, provide a breakdown of how time was spent. If not, sk
 ## Patterns & Observations
 ${type === "day" ? "Note the flow of the day and any focus areas." : "Identify recurring themes, growth areas, and trends over the period."}
 
-Use professional, concise language suitable for sharing with a manager or team lead. Use markdown formatting with headers, bullet points, and bold text for emphasis.
+Use professional, concise language suitable for sharing with a manager or team lead. 
+FORMATTING INSTRUCTIONS: Use markdown formatting with headers, bullet points, and bold text for emphasis. 
+CRITICAL: You MUST include empty lines between EVERY header, paragraph, and list item. The output should not look cramped.
 
 Work entries:
 ${entriesText}`;

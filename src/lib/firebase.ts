@@ -143,8 +143,8 @@ export async function saveSummary(
   });
 }
 
-function getSummaryId(type: Summary["type"]): string {
-  const now = new Date();
+export function getSummaryId(type: Summary["type"], customDate?: Date): string {
+  const now = customDate || new Date();
   switch (type) {
     case "day":
       return `day_${now.toISOString().split("T")[0]}`;

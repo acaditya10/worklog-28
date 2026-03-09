@@ -107,13 +107,14 @@ export default function LogPage() {
 
       {/* Input area */}
       <div className="space-y-3">
-        <div className="relative">
+        <div className="relative group">
+          <div className="absolute -inset-0.5 rounded-3xl bg-gradient-to-br from-indigo-500/20 to-purple-500/20 opacity-0 blur transition duration-500 group-focus-within:opacity-100" />
           <Textarea
             value={text}
             onChange={(e) => setText(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="e.g. Fixed the auth bug on login page, took about 2 hours. Then had a standup meeting for 15 min. After that reviewed John's PR for the payments module..."
-            className="min-h-[140px] resize-none border-zinc-800 bg-zinc-900/50 pb-14 text-sm leading-relaxed placeholder:text-zinc-600 focus:border-zinc-700 focus:ring-1 focus:ring-zinc-700"
+            className="relative min-h-[160px] resize-none rounded-3xl border border-white/10 bg-white/[0.02] p-5 pb-16 text-base leading-relaxed text-zinc-100 placeholder:text-zinc-600 shadow-inner backdrop-blur-xl transition-all duration-300 focus-visible:border-white/20 focus-visible:bg-white/[0.04] focus-visible:ring-0"
             disabled={parsing || preview !== null}
           />
           <div className="absolute bottom-3 right-3 flex items-center gap-2">
@@ -124,7 +125,7 @@ export default function LogPage() {
               size="sm"
               onClick={handleParse}
               disabled={!text.trim() || parsing || preview !== null}
-              className="bg-indigo-600 text-white hover:bg-indigo-500 disabled:opacity-40"
+              className="rounded-xl bg-white/10 text-white shadow-sm ring-1 ring-white/10 hover:bg-white/20 hover:ring-white/20 disabled:opacity-40 transition-all duration-300"
             >
               {parsing ? (
                 <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
@@ -151,10 +152,10 @@ export default function LogPage() {
       {todayEntries.length > 0 && (
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-medium text-zinc-400">
+            <h2 className="text-sm font-medium text-zinc-200">
               Today — {formatDate(new Date())}
             </h2>
-            <span className="text-xs text-zinc-600">
+            <span className="rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-medium text-zinc-300">
               {todayEntries.length}{" "}
               {todayEntries.length === 1 ? "entry" : "entries"}
             </span>
@@ -173,12 +174,12 @@ export default function LogPage() {
 
       {/* Empty state */}
       {todayEntries.length === 0 && !preview && (
-        <div className="flex flex-col items-center py-16 text-center">
-          <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-zinc-900">
-            <Send className="h-5 w-5 text-zinc-600" />
+        <div className="flex flex-col items-center justify-center py-20 text-center rounded-3xl border border-white/5 bg-white/[0.01] shadow-inner mt-6">
+          <div className="mb-4 rounded-full bg-white/5 p-4 shadow-[0_0_15px_rgba(255,255,255,0.05)] ring-1 ring-white/10">
+            <Send className="h-8 w-8 text-zinc-400" />
           </div>
-          <p className="text-sm text-zinc-500">No entries yet today</p>
-          <p className="mt-1 text-xs text-zinc-600">
+          <p className="text-base font-medium text-zinc-300">No entries yet today</p>
+          <p className="mt-1 text-sm text-zinc-500">
             Start by describing what you&apos;ve been working on
           </p>
         </div>

@@ -14,7 +14,7 @@ export function EntryCard({ entry, onEdit }: Props) {
   return (
     <div
       onClick={() => onEdit(entry)}
-      className="group cursor-pointer rounded-xl border border-zinc-800/50 bg-zinc-900/30 p-4 transition-all hover:border-zinc-700 hover:bg-zinc-900/60"
+      className="group relative cursor-pointer rounded-2xl border border-white/5 bg-white/[0.02] p-5 transition-all duration-300 hover:border-white/10 hover:bg-white/[0.04] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:-translate-y-0.5"
     >
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
@@ -37,8 +37,8 @@ export function EntryCard({ entry, onEdit }: Props) {
             {entry.duration && <span>{formatDuration(entry.duration)}</span>}
           </div>
         </div>
-        <button className="shrink-0 rounded-lg p-1.5 text-zinc-700 opacity-0 transition-all group-hover:opacity-100 hover:bg-zinc-800 hover:text-zinc-300">
-          <Pencil className="h-3.5 w-3.5" />
+        <button className="shrink-0 rounded-xl p-2 text-zinc-500 opacity-0 transition-all duration-300 group-hover:opacity-100 hover:bg-white/10 hover:text-white">
+          <Pencil className="h-4 w-4" />
         </button>
       </div>
     </div>

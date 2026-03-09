@@ -8,7 +8,7 @@ function escapeCSV(value: string): string {
   return value;
 }
 
-export function entriesToCSV(entries: Entry[]): string {
+export function entriesToCSV(entries: Entry[], summaries: Record<string, string>): string {
   // Group entries by date (sorted newest first)
   const grouped: Record<string, Entry[]> = {};
   for (const entry of entries) {
@@ -17,7 +17,7 @@ export function entriesToCSV(entries: Entry[]): string {
     grouped[dateKey].push(entry);
   }
 
-  const headers = ["Date", "Task", "Description", "Category", "Duration", "Time"];
+  const headers = ["Date", "Task", "Description", "Category", "Duration", "Time", "Daily Summary"];
   const rows: string[] = [headers.join(",")];
 
   for (const [date, dayEntries] of Object.entries(grouped)) {
@@ -32,6 +32,7 @@ export function entriesToCSV(entries: Entry[]): string {
         "",
         escapeCSV(formatDuration(totalMinutes)),
         "",
+        escapeCSV(summaries[date] || ""),
       ].join(","),
     );
 
@@ -45,6 +46,7 @@ export function entriesToCSV(entries: Entry[]): string {
           escapeCSV(entry.category),
           escapeCSV(formatDuration(entry.duration)),
           escapeCSV(formatTime(entry.createdAt)),
+          "",
         ].join(","),
       );
     }
@@ -53,8 +55,8 @@ export function entriesToCSV(entries: Entry[]): string {
   return rows.join("\n");
 }
 
-export function downloadCSV(entries: Entry[], filename?: string) {
-  const csv = entriesToCSV(entries);
+export function downloadCSV(entries: Entry[], summaries: Record<string, string>, filename?: string) {
+  const csv = entriesToCSV(entries, summaries);
   const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");

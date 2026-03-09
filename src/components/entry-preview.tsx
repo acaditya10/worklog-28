@@ -54,7 +54,7 @@ export function EntryPreview({
             variant="ghost"
             onClick={onDiscard}
             disabled={loading}
-            className="text-zinc-500 hover:text-zinc-300"
+            className="rounded-xl border border-transparent text-zinc-400 hover:bg-white/5 hover:text-zinc-200 transition-all duration-300"
           >
             <X className="mr-1 h-3.5 w-3.5" />
             Discard
@@ -63,7 +63,7 @@ export function EntryPreview({
             size="sm"
             onClick={() => onConfirm(edited)}
             disabled={loading || edited.length === 0}
-            className="bg-indigo-600 text-white hover:bg-indigo-500"
+            className="rounded-xl bg-white/10 text-white shadow-sm ring-1 ring-white/10 hover:bg-white/20 hover:ring-white/20 transition-all duration-300 disabled:opacity-40"
           >
             <Check className="mr-1 h-3.5 w-3.5" />
             {loading ? "Saving..." : "Confirm & Save"}
@@ -75,7 +75,7 @@ export function EntryPreview({
         {edited.map((entry, i) => (
           <div
             key={i}
-            className="group rounded-xl border border-zinc-800 bg-zinc-900/50 p-4 transition-colors hover:border-zinc-700"
+            className="group relative rounded-2xl border border-white/10 bg-white/[0.03] p-5 shadow-inner transition-all duration-300 hover:border-white/20 hover:bg-white/[0.05]"
           >
             {editingIndex === i ? (
               <div className="space-y-2">
@@ -83,7 +83,7 @@ export function EntryPreview({
                   value={entry.task}
                   onChange={(e) => updateEntry(i, "task", e.target.value)}
                   placeholder="Task name"
-                  className="border-zinc-700 bg-zinc-800 text-sm"
+                  className="rounded-xl border-white/10 bg-black/20 text-sm text-zinc-100 placeholder:text-zinc-600 focus-visible:border-white/20 focus-visible:ring-1 focus-visible:ring-white/20 transition-all"
                 />
                 <Input
                   value={entry.description}
@@ -91,7 +91,7 @@ export function EntryPreview({
                     updateEntry(i, "description", e.target.value)
                   }
                   placeholder="Description"
-                  className="border-zinc-700 bg-zinc-800 text-sm"
+                  className="rounded-xl border-white/10 bg-black/20 text-sm text-zinc-100 placeholder:text-zinc-600 focus-visible:border-white/20 focus-visible:ring-1 focus-visible:ring-white/20 transition-all"
                 />
                 <div className="flex gap-2">
                   <Input
@@ -100,7 +100,7 @@ export function EntryPreview({
                       updateEntry(i, "category", e.target.value)
                     }
                     placeholder="Category"
-                    className="border-zinc-700 bg-zinc-800 text-sm"
+                    className="rounded-xl border-white/10 bg-black/20 text-sm text-zinc-100 placeholder:text-zinc-600 focus-visible:border-white/20 focus-visible:ring-1 focus-visible:ring-white/20 transition-all"
                   />
                   <Input
                     value={entry.duration ?? ""}
@@ -109,14 +109,14 @@ export function EntryPreview({
                     }
                     placeholder="Minutes"
                     type="number"
-                    className="w-28 border-zinc-700 bg-zinc-800 text-sm"
+                    className="w-28 rounded-xl border-white/10 bg-black/20 text-sm text-zinc-100 placeholder:text-zinc-600 focus-visible:border-white/20 focus-visible:ring-1 focus-visible:ring-white/20 transition-all"
                   />
                 </div>
                 <Button
                   size="sm"
                   variant="ghost"
                   onClick={() => setEditingIndex(null)}
-                  className="text-xs text-indigo-400"
+                  className="rounded-xl text-xs text-indigo-300 hover:bg-indigo-500/10 hover:text-indigo-200 transition-all duration-300"
                 >
                   Done editing
                 </Button>
@@ -147,15 +147,15 @@ export function EntryPreview({
                 <div className="flex items-center gap-1">
                   <button
                     onClick={() => setEditingIndex(i)}
-                    className="rounded-lg p-1.5 text-zinc-600 transition-colors hover:bg-zinc-800 hover:text-zinc-300"
+                    className="rounded-xl p-2 text-zinc-500 transition-all duration-300 hover:bg-white/10 hover:text-white"
                   >
-                    <Pencil className="h-3.5 w-3.5" />
+                    <Pencil className="h-4 w-4" />
                   </button>
                   <button
                     onClick={() => removeEntry(i)}
-                    className="rounded-lg p-1.5 text-zinc-600 transition-colors hover:bg-zinc-800 hover:text-red-400"
+                    className="rounded-xl p-2 text-zinc-500 transition-all duration-300 hover:bg-red-500/10 hover:text-red-400"
                   >
-                    <X className="h-3.5 w-3.5" />
+                    <X className="h-4 w-4" />
                   </button>
                 </div>
               </div>
