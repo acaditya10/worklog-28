@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { getEntries, updateEntry, deleteEntry } from "@/lib/firebase";
+import { downloadCSV } from "@/lib/export-csv";
 import { SummarySection } from "@/components/summary-section";
 import { EditDialog } from "@/components/edit-dialog";
 import { Badge } from "@/components/ui/badge";
@@ -12,7 +13,7 @@ import {
   formatDate,
   formatTime,
 } from "@/lib/utils";
-import { Search, LayoutList, Loader2, Clock } from "lucide-react";
+import { Search, LayoutList, Loader2, Clock, Download } from "lucide-react";
 import { toast } from "sonner";
 import type { Entry } from "@/lib/types";
 
@@ -81,6 +82,15 @@ export default function DashboardPage() {
     await load();
   }
 
+  function handleExport() {
+    if (filtered.length === 0) {
+      toast.error("No entries to export");
+      return;
+    }
+    downloadCSV(filtered);
+    toast.success(`Exported ${filtered.length} entries to CSV`);
+  }
+
   async function handleDelete(id: string) {
     await deleteEntry(id);
     toast.success("Entry deleted");
@@ -118,6 +128,15 @@ export default function DashboardPage() {
               </div>
             )}
           </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleExport}
+              disabled={filtered.length === 0}
+              className="flex items-center gap-1.5 rounded-lg border border-zinc-800 bg-zinc-900/50 px-3 py-1.5 text-xs font-medium text-zinc-400 transition-all hover:border-zinc-700 hover:text-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              <Download className="h-3.5 w-3.5" />
+              Export CSV
+            </button>
           <div className="relative w-full sm:w-64">
             <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-zinc-600" />
             <Input
@@ -126,6 +145,7 @@ export default function DashboardPage() {
               placeholder="Search entries..."
               className="border-zinc-800 bg-zinc-900/50 pl-9 text-sm placeholder:text-zinc-600"
             />
+          </div>
           </div>
         </div>
 
