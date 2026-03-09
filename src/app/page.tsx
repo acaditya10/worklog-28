@@ -94,7 +94,7 @@ export default function LogPage() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="mx-auto w-full max-w-3xl space-y-8 px-4">
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold tracking-tight text-zinc-100">

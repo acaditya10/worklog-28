@@ -5,6 +5,7 @@ import { getEntries, updateEntry, deleteEntry, getSummaryId, db } from "@/lib/fi
 import { getDoc, doc } from "firebase/firestore";
 import { downloadCSV } from "@/lib/export-csv";
 import { SummarySection } from "@/components/summary-section";
+import { DashboardCharts } from "@/components/dashboard-charts";
 import { EditDialog } from "@/components/edit-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -43,10 +44,10 @@ export default function DashboardPage() {
     const dates = Object.keys(grouped);
     const newSummaries: Record<string, string> = {};
     for (const dateStr of dates) {
-      // dateStr is formatted like 'Mar 9, 2026' via formatDate
-      const [mon, dayStr, yearStr] = dateStr.replace(",", "").split(" ");
-      const monthIdx = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"].indexOf(mon) + 1;
-      const date = new Date(Number(yearStr), monthIdx - 1, Number(dayStr));
+      const firstEntry = grouped[dateStr][0];
+      if (!firstEntry) continue;
+      
+      const date = new Date(firstEntry.createdAt);
       
       const id = getSummaryId("day", date);
       try {
@@ -129,9 +130,9 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="mx-auto w-full max-w-7xl px-6">
       {/* Header */}
-      <div>
+      <div className="mb-8">
         <h1 className="text-2xl font-bold tracking-tight text-zinc-100">
           Dashboard
         </h1>
@@ -140,11 +141,14 @@ export default function DashboardPage() {
         </p>
       </div>
 
-      {/* Summaries */}
-      <SummarySection />
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+        {/* Left Column */}
+        <div className="space-y-8 lg:col-span-2">
+          {/* Summaries */}
+          <SummarySection />
 
-      {/* Filters */}
-      <div className="space-y-3">
+          {/* Filters */}
+          <div className="space-y-3">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-2">
             <LayoutList className="h-4 w-4 text-zinc-500" />
@@ -296,14 +300,21 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {/* Edit dialog */}
-      <EditDialog
-        entry={editEntry}
-        open={editEntry !== null}
-        onClose={() => setEditEntry(null)}
-        onSave={handleEditSave}
-        onDelete={handleDelete}
-      />
+        {/* Edit dialog */}
+        <EditDialog
+          entry={editEntry}
+          open={editEntry !== null}
+          onClose={() => setEditEntry(null)}
+          onSave={handleEditSave}
+          onDelete={handleDelete}
+        />
+        </div>
+
+        {/* Right Column (Desktop) */}
+        <div className="lg:col-span-1">
+          {!loading && filtered.length > 0 && <DashboardCharts entries={filtered} />}
+        </div>
+      </div>
     </div>
   );
 }

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import { Nav } from "@/components/nav";
 import { Toaster } from "sonner";
+import { ChatBot } from "@/components/chat-bot";
 import "./globals.css";
 
 const outfit = Outfit({ subsets: ["latin"] });
@@ -19,6 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark selection:bg-indigo-500/30">
       <body
+        suppressHydrationWarning
         className={`${outfit.className} bg-[#0A0A0A] text-zinc-100 min-h-screen relative overflow-x-hidden`}
       >
         {/* Ambient background glows */}
@@ -29,10 +31,11 @@ export default function RootLayout({
         
         <div className="relative z-10 flex min-h-screen flex-col">
           <Nav />
-          <main className="mx-auto w-full max-w-3xl flex-1 px-4 pb-20 pt-20">
+          <div className="flex-1 w-full pt-20 pb-20">
             {children}
-          </main>
+          </div>
         </div>
+        <ChatBot />
         <Toaster
           theme="dark"
           toastOptions={{
